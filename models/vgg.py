@@ -57,7 +57,7 @@ class VGG(nn.Module):
         return output
 
 #自定义特征提取层，即卷积层,将layer定义为一个列表,并且其后的Sequential如果遇到列表的输入，前必须加*，将输入迭代器拆成元素
-
+#Sequential的一般输入是Sequential(conv1,conv2,conv3)
 def make_layers(cfg, batch_norm=False):
     layers = []
 
