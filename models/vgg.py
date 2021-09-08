@@ -30,12 +30,12 @@ class VGG(nn.Module):
         super().__init__()
         self.features = features
 
-"""
+#
 Sequential是一个顺序容器,模块将按照它们在构造函数中传递的顺序添加到其中,之后的forward()方法接受任何输入并将其转发到它包含的第一个模块，
 然后它将输出“链接”到每个后续模块的输入，最后返回最后一个模块的输出.
 ReLU的参数inplace表示是否就地执行ReLU操作.
 Dropout有一个参数p,表示进行神经元丢弃的概率.
-"""
+#
         self.classifier = nn.Sequential(
             nn.Linear(512, 4096),
             nn.ReLU(inplace=True),
