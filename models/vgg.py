@@ -24,11 +24,18 @@ cfg = {
 }
 
 class VGG(nn.Module):
-
+    
+#features表示从卷积层提取的特征，num_class表示分类器的分类标签数目
     def __init__(self, features, num_class=100):
         super().__init__()
         self.features = features
 
+"""
+Sequential是一个顺序容器,模块将按照它们在构造函数中传递的顺序添加到其中,之后的forward()方法接受任何输入并将其转发到它包含的第一个模块，
+然后它将输出“链接”到每个后续模块的输入，最后返回最后一个模块的输出.
+ReLU的参数inplace表示是否就地执行ReLU操作.
+Dropout有一个参数p,表示进行神经元丢弃的概率.
+"""
         self.classifier = nn.Sequential(
             nn.Linear(512, 4096),
             nn.ReLU(inplace=True),
@@ -39,6 +46,7 @@ class VGG(nn.Module):
             nn.Linear(4096, num_class)
         )
 
+ #view函数实现将B,C,W,H的张量转换为B*(c*w*h)维的矩阵，方便输入全连接层进行分类
     def forward(self, x):
         output = self.features(x)
         output = output.view(output.size()[0], -1)
@@ -46,6 +54,7 @@ class VGG(nn.Module):
 
         return output
 
+#
 def make_layers(cfg, batch_norm=False):
     layers = []
 
